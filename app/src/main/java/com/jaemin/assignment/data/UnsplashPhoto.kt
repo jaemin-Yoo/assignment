@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UnsplashImageUrls(
-    @SerialName("small") val small: String
+data class UnsplashPhoto(
+    @SerialName("id") val id: String,
+    @SerialName("urls") val urls: UnsplashPhotoUrls,
 )

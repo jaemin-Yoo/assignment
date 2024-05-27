@@ -15,21 +15,21 @@ class FavoritesRepository @Inject constructor(
 ) {
     private val favoritesKey = stringSetPreferencesKey("favorites")
 
-    val favoriteImageIds: Flow<Set<String>> = dataStore.data.map { preferences ->
+    val favoritePhotoIds: Flow<Set<String>> = dataStore.data.map { preferences ->
         preferences[favoritesKey] ?: emptySet()
     }
 
-    suspend fun addFavorite(imageId: String) {
+    suspend fun addFavorite(photoId: String) {
         dataStore.edit { preferences ->
             val currentFavorites = preferences[favoritesKey] ?: emptySet()
-            preferences[favoritesKey] = currentFavorites + imageId
+            preferences[favoritesKey] = currentFavorites + photoId
         }
     }
 
-    suspend fun removeFavorite(imageId: String) {
+    suspend fun removeFavorite(photoId: String) {
         dataStore.edit { preferences ->
             val currentFavorites = preferences[favoritesKey] ?: emptySet()
-            preferences[favoritesKey] = currentFavorites - imageId
+            preferences[favoritesKey] = currentFavorites - photoId
         }
     }
 }

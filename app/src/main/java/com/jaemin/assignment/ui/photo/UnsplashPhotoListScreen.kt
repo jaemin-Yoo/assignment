@@ -1,4 +1,4 @@
-package com.jaemin.assignment.ui.image
+package com.jaemin.assignment.ui.photo
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,12 +30,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.jaemin.assignment.R
-import com.jaemin.assignment.data.UnsplashImage
-import com.jaemin.assignment.data.UnsplashImageUrls
+import com.jaemin.assignment.data.UnsplashPhoto
+import com.jaemin.assignment.data.UnsplashPhotoUrls
 
 @Composable
-fun UnsplashImageListScreen(
-    unsplashImages: List<UnsplashImage>
+fun UnsplashPhotoListScreen(
+    unsplashPhotos: List<UnsplashPhoto>
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -45,18 +45,18 @@ fun UnsplashImageListScreen(
         )
     ) {
         items(
-            items = unsplashImages,
+            items = unsplashPhotos,
             key = { it.id }
-        ) { image ->
-            UnsplashImageListItem(unsplashImage = image)
+        ) { photo ->
+            UnsplashPhotoListItem(unsplashPhoto = photo)
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun UnsplashImageListItem(
-    unsplashImage: UnsplashImage
+fun UnsplashPhotoListItem(
+    unsplashPhoto: UnsplashPhoto
 ) {
     Card(
         modifier = Modifier
@@ -65,7 +65,7 @@ fun UnsplashImageListItem(
     ) {
         Box(Modifier.fillMaxSize()) {
             GlideImage(
-                model = unsplashImage.urls.small,
+                model = unsplashPhoto.urls.small,
                 contentDescription = stringResource(id = R.string.unsplash_image),
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
@@ -92,29 +92,29 @@ fun UnsplashImageListItem(
 
 @Preview
 @Composable
-private fun UnsplashImageListScreenPreview(
-    @PreviewParameter(UnsplashImageListPreviewParamProvider::class) unsplashImages: List<UnsplashImage>
+private fun UnsplashPhotoListScreenPreview(
+    @PreviewParameter(UnsplashPhotoListPreviewParamProvider::class) unsplashPhotos: List<UnsplashPhoto>
 ) {
-    UnsplashImageListScreen(unsplashImages = unsplashImages)
+    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos)
 }
 
-private class UnsplashImageListPreviewParamProvider :
-    PreviewParameterProvider<List<UnsplashImage>> {
-    override val values: Sequence<List<UnsplashImage>> =
+private class UnsplashPhotoListPreviewParamProvider :
+    PreviewParameterProvider<List<UnsplashPhoto>> {
+    override val values: Sequence<List<UnsplashPhoto>> =
         sequenceOf(
             emptyList(),
             listOf(
-                UnsplashImage(
+                UnsplashPhoto(
                     "1",
-                    UnsplashImageUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+                    UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
                 ),
-                UnsplashImage(
+                UnsplashPhoto(
                     "2",
-                    UnsplashImageUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+                    UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
                 ),
-                UnsplashImage(
+                UnsplashPhoto(
                     "3",
-                    UnsplashImageUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+                    UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
                 )
             )
         )
