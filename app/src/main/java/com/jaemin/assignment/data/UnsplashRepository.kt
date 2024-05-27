@@ -1,4 +1,4 @@
-package com.jaemin.assignment.repository
+package com.jaemin.assignment.data
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FavoritesRepository @Inject constructor(
+class UnsplashRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
     private val favoritesKey = stringSetPreferencesKey("favorites")
