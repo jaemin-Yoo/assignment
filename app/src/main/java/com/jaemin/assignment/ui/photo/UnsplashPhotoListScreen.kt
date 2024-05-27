@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.paging.compose.LazyPagingItems
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.jaemin.assignment.R
@@ -35,7 +36,8 @@ import com.jaemin.assignment.data.model.UnsplashPhotoUrls
 
 @Composable
 fun UnsplashPhotoListScreen(
-    unsplashPhotos: List<UnsplashPhoto>
+    unsplashPhotos: List<UnsplashPhoto>,
+    onClickLikeButton: (String, Boolean) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -48,7 +50,38 @@ fun UnsplashPhotoListScreen(
             items = unsplashPhotos,
             key = { it.id }
         ) { photo ->
-            UnsplashPhotoListItem(unsplashPhoto = photo)
+            UnsplashPhotoListItem(
+                unsplashPhoto = photo,
+                onClickLikeButton = onClickLikeButton
+            )
+        }
+    }
+}
+
+@Composable
+fun UnsplashPhotoListScreen(
+    unsplashPhotos: LazyPagingItems<UnsplashPhoto>,
+    onClickLikeButton: (String, Boolean) -> Unit
+) {
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(id = R.dimen.horizontal_margin),
+            vertical = dimensionResource(id = R.dimen.header_margin)
+        )
+    ) {
+        items(
+            count = unsplashPhotos.itemCount,
+            key = { index ->
+                val photo = unsplashPhotos[index]
+                "${photo?.id ?: ""}${index}"
+            }
+        ) { index ->
+            val photo = unsplashPhotos[index] ?: return@items
+            UnsplashPhotoListItem(
+                unsplashPhoto = photo,
+                onClickLikeButton = onClickLikeButton
+            )
         }
     }
 }
@@ -56,7 +89,8 @@ fun UnsplashPhotoListScreen(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun UnsplashPhotoListItem(
-    unsplashPhoto: UnsplashPhoto
+    unsplashPhoto: UnsplashPhoto,
+    onClickLikeButton: (String, Boolean) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -72,7 +106,10 @@ fun UnsplashPhotoListItem(
             )
             var isLiked by remember { mutableStateOf(false) }
             IconButton(
-                onClick = { isLiked = !isLiked },
+                onClick = {
+                    isLiked = !isLiked
+                    onClickLikeButton(unsplashPhoto.id, isLiked)
+                },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(
@@ -95,7 +132,7 @@ fun UnsplashPhotoListItem(
 private fun UnsplashPhotoListScreenPreview(
     @PreviewParameter(UnsplashPhotoListPreviewParamProvider::class) unsplashPhotos: List<UnsplashPhoto>
 ) {
-    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos)
+    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos, onClickLikeButton = { _, _ -> })
 }
 
 private class UnsplashPhotoListPreviewParamProvider :
