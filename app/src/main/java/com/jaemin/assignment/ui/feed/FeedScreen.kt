@@ -18,10 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jaemin.assignment.R
+import com.jaemin.assignment.data.model.UnsplashPhoto
+import com.jaemin.assignment.data.model.UnsplashPhotoUrls
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun FeedScreen(
@@ -29,21 +37,38 @@ fun FeedScreen(
 ) {
     val searchQuery by viewModel.searchQuery.collectAsState()
     val unsplashPhotosStream by viewModel.unsplashPhotosStream.collectAsState()
+    FeedScreen(
+        searchQuery = searchQuery,
+        unsplashPhotoStream = unsplashPhotosStream,
+        onSearchQueryChanged = viewModel::onSearchQueryChanged,
+        onSearch = viewModel::search,
+        onAddFavorite = viewModel::addFavorite,
+        onRemoveFavorite = viewModel::removeFavorite
+    )
+}
 
+@Composable
+fun FeedScreen(
+    searchQuery: String,
+    unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>?,
+    onSearchQueryChanged: (String) -> Unit = {},
+    onSearch: () -> Unit = {},
+    onAddFavorite: (String) -> Unit = {},
+    onRemoveFavorite: (String) -> Unit = {}
+) {
     Column {
         SearchTextField(
             searchQuery = searchQuery,
-            onSearchQueryChanged = { query -> viewModel.onSearchQueryChanged(query) },
-            onSearch = { viewModel.search() }
+            onSearchQueryChanged = onSearchQueryChanged,
+            onSearch = onSearch
         )
-
-        unsplashPhotosStream?.let { pagingDataFlow ->
-            val pagingItems = pagingDataFlow.collectAsLazyPagingItems()
+        unsplashPhotoStream?.let { dataFlow ->
+            val pagingItems = dataFlow.collectAsLazyPagingItems()
             UnsplashPhotoListScreen(unsplashPhotos = pagingItems) { id, isLiked ->
                 if (isLiked) {
-                    viewModel.addFavorite(id)
+                    onAddFavorite(id)
                 } else {
-                    viewModel.removeFavorite(id)
+                    onRemoveFavorite(id)
                 }
             }
         }
@@ -89,4 +114,37 @@ fun SearchTextField(
         maxLines = 1,
         singleLine = true,
     )
+}
+
+@Preview
+@Composable
+fun FeedScreenPreview(
+    @PreviewParameter(FeedScreenPreviewParamProvider::class) unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>
+) {
+    FeedScreen(
+        searchQuery = "나무",
+        unsplashPhotoStream = unsplashPhotoStream
+    )
+}
+
+private class FeedScreenPreviewParamProvider :
+    PreviewParameterProvider<Flow<PagingData<UnsplashPhoto>>> {
+
+    override val values: Sequence<Flow<PagingData<UnsplashPhoto>>> =
+        sequenceOf(
+            flowOf(
+                PagingData.from(
+                    listOf(
+                        UnsplashPhoto(
+                            id = "1",
+                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max")
+                        ),
+                        UnsplashPhoto(
+                            id = "2",
+                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max")
+                        )
+                    )
+                )
+            ),
+        )
 }
