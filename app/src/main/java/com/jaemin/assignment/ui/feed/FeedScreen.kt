@@ -1,5 +1,6 @@
 package com.jaemin.assignment.ui.feed
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -11,15 +12,42 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.jaemin.assignment.R
+import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
 
 @Composable
-fun FeedScreen() {
+fun FeedScreen(
+    viewModel: FeedViewModel = hiltViewModel()
+) {
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val unsplashPhotosStream by viewModel.unsplashPhotosStream.collectAsState()
 
+    Column {
+        SearchTextField(
+            searchQuery = searchQuery,
+            onSearchQueryChanged = { query -> viewModel.onSearchQueryChanged(query) },
+            onSearch = { viewModel.search() }
+        )
+
+        unsplashPhotosStream?.let { pagingDataFlow ->
+            val pagingItems = pagingDataFlow.collectAsLazyPagingItems()
+            UnsplashPhotoListScreen(unsplashPhotos = pagingItems) { id, isLiked ->
+                if (isLiked) {
+                    viewModel.addFavorite(id)
+                } else {
+                    viewModel.removeFavorite(id)
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -47,20 +75,16 @@ fun SearchTextField(
                 }
             }
         },
-        onValueChange = {
-            if ("\n" !in it) onSearchQueryChanged(it)
-        },
+        onValueChange = { onSearchQueryChanged(it) },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensionResource(id = R.dimen.margin_normal)),
         value = searchQuery,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Search,
         ),
         keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearch()
-            }
+            onSearch = { onSearch() }
         ),
         maxLines = 1,
         singleLine = true,
