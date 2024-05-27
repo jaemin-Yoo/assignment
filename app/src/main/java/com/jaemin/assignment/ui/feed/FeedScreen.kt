@@ -37,9 +37,11 @@ fun FeedScreen(
 ) {
     val searchQuery by viewModel.searchQuery.collectAsState()
     val unsplashPhotosStream by viewModel.unsplashPhotosStream.collectAsState()
+    val favoritePhotos by viewModel.favoritePhotos.collectAsState()
     FeedScreen(
         searchQuery = searchQuery,
         unsplashPhotoStream = unsplashPhotosStream,
+        favoritePhotos = favoritePhotos.toList(),
         onSearchQueryChanged = viewModel::onSearchQueryChanged,
         onSearch = viewModel::search,
         onAddFavorite = viewModel::addFavorite,
@@ -51,6 +53,7 @@ fun FeedScreen(
 fun FeedScreen(
     searchQuery: String,
     unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>?,
+    favoritePhotos: List<UnsplashPhoto> = emptyList(),
     onSearchQueryChanged: (String) -> Unit = {},
     onSearch: () -> Unit = {},
     onAddFavorite: (UnsplashPhoto) -> Unit = {},
@@ -64,7 +67,10 @@ fun FeedScreen(
         )
         unsplashPhotoStream?.let { dataFlow ->
             val pagingItems = dataFlow.collectAsLazyPagingItems()
-            UnsplashPhotoListScreen(unsplashPhotos = pagingItems) { id, isLiked ->
+            UnsplashPhotoListScreen(
+                unsplashPhotos = pagingItems,
+                favoritePhotos = favoritePhotos
+            ) { id, isLiked ->
                 if (isLiked) {
                     onAddFavorite(id)
                 } else {
@@ -123,7 +129,13 @@ fun FeedScreenPreview(
 ) {
     FeedScreen(
         searchQuery = "나무",
-        unsplashPhotoStream = unsplashPhotoStream
+        unsplashPhotoStream = unsplashPhotoStream,
+        favoritePhotos = listOf(
+            UnsplashPhoto(
+                id = "1",
+                urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+            )
+        )
     )
 }
 
@@ -137,11 +149,11 @@ private class FeedScreenPreviewParamProvider :
                     listOf(
                         UnsplashPhoto(
                             id = "1",
-                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max")
+                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
                         ),
                         UnsplashPhoto(
                             id = "2",
-                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max")
+                            urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
                         )
                     )
                 )
