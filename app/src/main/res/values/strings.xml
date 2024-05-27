@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">assignment</string>
+    <string name="unsplash_image">Unsplash Image</string>
 </resources>
