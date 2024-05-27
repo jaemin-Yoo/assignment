@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -21,6 +23,17 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            type = "String",
+            name = "UNSPLASH_ACCESS_KEY",
+            value = gradleLocalProperties(rootDir).getProperty("UNSPLASH_ACCESS_KEY")
+        )
+        buildConfigField(
+            type = "String",
+            name = "UNSPLASH_BASE_URL",
+            value ="\"https://api.unsplash.com/\""
+        )
     }
 
     buildTypes {
@@ -41,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
