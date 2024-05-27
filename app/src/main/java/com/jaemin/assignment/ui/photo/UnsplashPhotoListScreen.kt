@@ -37,7 +37,7 @@ import com.jaemin.assignment.data.model.UnsplashPhotoUrls
 @Composable
 fun UnsplashPhotoListScreen(
     unsplashPhotos: List<UnsplashPhoto>,
-    onClickLikeButton: (String, Boolean) -> Unit
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -61,7 +61,7 @@ fun UnsplashPhotoListScreen(
 @Composable
 fun UnsplashPhotoListScreen(
     unsplashPhotos: LazyPagingItems<UnsplashPhoto>,
-    onClickLikeButton: (String, Boolean) -> Unit
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -90,7 +90,7 @@ fun UnsplashPhotoListScreen(
 @Composable
 fun UnsplashPhotoListItem(
     unsplashPhoto: UnsplashPhoto,
-    onClickLikeButton: (String, Boolean) -> Unit
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -108,7 +108,7 @@ fun UnsplashPhotoListItem(
             IconButton(
                 onClick = {
                     isLiked = !isLiked
-                    onClickLikeButton(unsplashPhoto.id, isLiked)
+                    onClickLikeButton(unsplashPhoto, isLiked)
                 },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
