@@ -9,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.jaemin.assignment.api.UnsplashService
 import com.jaemin.assignment.data.model.UnsplashPhoto
+import com.jaemin.assignment.data.model.UnsplashPhotoUrls
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -21,21 +22,24 @@ class UnsplashRepository @Inject constructor(
 ) {
     private val favoritesKey = stringSetPreferencesKey("favorites")
 
-    val favoritePhotoIds: Flow<Set<String>> = dataStore.data.map { preferences ->
-        preferences[favoritesKey] ?: emptySet()
+    val favoritePhoto: Flow<List<UnsplashPhoto>> = dataStore.data.map { preferences ->
+        preferences[favoritesKey]?.map { str ->
+            val (id, url) = str.split(" ")
+            UnsplashPhoto(id, UnsplashPhotoUrls(url))
+        } ?: emptyList()
     }
 
-    suspend fun addFavorite(photoId: String) {
+    suspend fun addFavorite(id: String, url: String) {
         dataStore.edit { preferences ->
             val currentFavorites = preferences[favoritesKey] ?: emptySet()
-            preferences[favoritesKey] = currentFavorites + photoId
+            preferences[favoritesKey] = currentFavorites + "$id $url"
         }
     }
 
-    suspend fun removeFavorite(photoId: String) {
+    suspend fun removeFavorite(id: String, url: String) {
         dataStore.edit { preferences ->
             val currentFavorites = preferences[favoritesKey] ?: emptySet()
-            preferences[favoritesKey] = currentFavorites - photoId
+            preferences[favoritesKey] = currentFavorites - "$id $url"
         }
     }
 
