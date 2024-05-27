@@ -34,15 +34,15 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun addFavorite(imageId: String) {
+    fun addFavorite(photo: UnsplashPhoto) {
         viewModelScope.launch {
-            unsplashRepository.addFavorite(imageId)
+            unsplashRepository.addFavorite(photo.id, photo.urls.small)
         }
     }
 
-    fun removeFavorite(imageId: String) {
+    fun removeFavorite(photo: UnsplashPhoto) {
         viewModelScope.launch {
-            unsplashRepository.removeFavorite(imageId)
+            unsplashRepository.removeFavorite(photo.id, photo.urls.small)
         }
     }
 }

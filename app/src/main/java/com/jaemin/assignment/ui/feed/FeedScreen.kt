@@ -53,8 +53,8 @@ fun FeedScreen(
     unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>?,
     onSearchQueryChanged: (String) -> Unit = {},
     onSearch: () -> Unit = {},
-    onAddFavorite: (String) -> Unit = {},
-    onRemoveFavorite: (String) -> Unit = {}
+    onAddFavorite: (UnsplashPhoto) -> Unit = {},
+    onRemoveFavorite: (UnsplashPhoto) -> Unit = {}
 ) {
     Column {
         SearchTextField(
