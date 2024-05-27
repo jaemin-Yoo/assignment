@@ -74,4 +74,5 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44.2")
     kapt("com.google.dagger:hilt-compiler:2.44.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 }
