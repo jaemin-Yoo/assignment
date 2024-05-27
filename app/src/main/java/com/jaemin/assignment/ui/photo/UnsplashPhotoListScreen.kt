@@ -37,7 +37,8 @@ import com.jaemin.assignment.data.model.UnsplashPhotoUrls
 @Composable
 fun UnsplashPhotoListScreen(
     unsplashPhotos: List<UnsplashPhoto>,
-    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
+    favoritePhotos: List<UnsplashPhoto> = emptyList(),
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit = { _, _ -> }
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -52,6 +53,7 @@ fun UnsplashPhotoListScreen(
         ) { photo ->
             UnsplashPhotoListItem(
                 unsplashPhoto = photo,
+                isFavoritePhoto = favoritePhotos.any { it.id == photo.id },
                 onClickLikeButton = onClickLikeButton
             )
         }
@@ -61,7 +63,8 @@ fun UnsplashPhotoListScreen(
 @Composable
 fun UnsplashPhotoListScreen(
     unsplashPhotos: LazyPagingItems<UnsplashPhoto>,
-    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
+    favoritePhotos: List<UnsplashPhoto> = emptyList(),
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit = { _, _ -> }
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -79,6 +82,7 @@ fun UnsplashPhotoListScreen(
         ) { index ->
             val photo = unsplashPhotos[index] ?: return@items
             UnsplashPhotoListItem(
+                isFavoritePhoto = favoritePhotos.any { it.id == photo.id },
                 unsplashPhoto = photo,
                 onClickLikeButton = onClickLikeButton
             )
@@ -89,6 +93,7 @@ fun UnsplashPhotoListScreen(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun UnsplashPhotoListItem(
+    isFavoritePhoto: Boolean,
     unsplashPhoto: UnsplashPhoto,
     onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
 ) {
@@ -104,7 +109,7 @@ fun UnsplashPhotoListItem(
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
-            var isLiked by remember { mutableStateOf(false) }
+            var isLiked by remember { mutableStateOf(isFavoritePhoto) }
             IconButton(
                 onClick = {
                     isLiked = !isLiked
@@ -132,7 +137,7 @@ fun UnsplashPhotoListItem(
 private fun UnsplashPhotoListScreenPreview(
     @PreviewParameter(UnsplashPhotoListPreviewParamProvider::class) unsplashPhotos: List<UnsplashPhoto>
 ) {
-    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos, onClickLikeButton = { _, _ -> })
+    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos)
 }
 
 private class UnsplashPhotoListPreviewParamProvider :
