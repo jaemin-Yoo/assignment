@@ -39,6 +39,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.jaemin.assignment.R
 import com.jaemin.assignment.model.UnsplashPhoto
 import com.jaemin.assignment.model.UnsplashPhotoUrls
+import com.jaemin.assignment.ui.theme.AssignmentTheme
 
 @Composable
 fun UnsplashPhotoListScreen(
@@ -101,7 +102,7 @@ fun UnsplashPhotoListScreen(
 fun UnsplashPhotoListItem(
     isFavoritePhoto: Boolean,
     unsplashPhoto: UnsplashPhoto,
-    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit
+    onClickLikeButton: (UnsplashPhoto, Boolean) -> Unit = { _, _ -> }
 ) {
     Card(
         modifier = Modifier
@@ -156,14 +157,15 @@ fun UnsplashPhotoListItem(
 private fun UnsplashPhotoListScreenPreview(
     @PreviewParameter(UnsplashPhotoListPreviewParamProvider::class) unsplashPhotos: List<UnsplashPhoto>
 ) {
-    UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos)
+    AssignmentTheme {
+        UnsplashPhotoListScreen(unsplashPhotos = unsplashPhotos)
+    }
 }
 
 private class UnsplashPhotoListPreviewParamProvider :
     PreviewParameterProvider<List<UnsplashPhoto>> {
     override val values: Sequence<List<UnsplashPhoto>> =
         sequenceOf(
-            emptyList(),
             listOf(
                 UnsplashPhoto(
                     "1",

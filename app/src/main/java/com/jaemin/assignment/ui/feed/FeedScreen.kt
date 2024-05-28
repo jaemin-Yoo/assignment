@@ -28,6 +28,7 @@ import com.jaemin.assignment.R
 import com.jaemin.assignment.model.UnsplashPhoto
 import com.jaemin.assignment.model.UnsplashPhotoUrls
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
+import com.jaemin.assignment.ui.theme.AssignmentTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -124,16 +125,18 @@ fun SearchTextField(
 fun FeedScreenPreview(
     @PreviewParameter(FeedScreenPreviewParamProvider::class) unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>
 ) {
-    FeedScreen(
-        searchQuery = "나무",
-        unsplashPhotoStream = unsplashPhotoStream,
-        favoritePhotos = listOf(
-            UnsplashPhoto(
-                id = "1",
-                urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+    AssignmentTheme {
+        FeedScreen(
+            searchQuery = "",
+            unsplashPhotoStream = unsplashPhotoStream,
+            favoritePhotos = listOf(
+                UnsplashPhoto(
+                    id = "1",
+                    urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+                )
             )
         )
-    )
+    }
 }
 
 private class FeedScreenPreviewParamProvider :

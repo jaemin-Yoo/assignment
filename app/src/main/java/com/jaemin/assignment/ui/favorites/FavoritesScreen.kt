@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.jaemin.assignment.model.UnsplashPhoto
 import com.jaemin.assignment.model.UnsplashPhotoUrls
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
+import com.jaemin.assignment.ui.theme.AssignmentTheme
 
 @Composable
 fun FavoritesScreen(
@@ -42,12 +43,14 @@ fun FavoritesScreen(
 @Preview
 @Composable
 fun FavoritesScreenPreview() {
-    FavoritesScreen(
-        favoritePhotos = listOf(
-            UnsplashPhoto(
-                id = "1",
-                urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+    AssignmentTheme {
+        FavoritesScreen(
+            favoritePhotos = listOf(
+                UnsplashPhoto(
+                    id = "1",
+                    urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
+                )
             )
         )
-    )
+    }
 }
