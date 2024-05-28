@@ -2,8 +2,7 @@ package com.jaemin.assignment.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.jaemin.assignment.api.UnsplashService
-import com.jaemin.assignment.data.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhoto
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 

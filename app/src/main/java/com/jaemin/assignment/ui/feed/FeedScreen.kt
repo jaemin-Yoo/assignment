@@ -25,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jaemin.assignment.R
-import com.jaemin.assignment.data.model.UnsplashPhoto
-import com.jaemin.assignment.data.model.UnsplashPhotoUrls
+import com.jaemin.assignment.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhotoUrls
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

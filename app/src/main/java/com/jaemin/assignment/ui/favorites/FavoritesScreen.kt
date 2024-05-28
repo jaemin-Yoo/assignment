@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.jaemin.assignment.data.model.UnsplashPhoto
-import com.jaemin.assignment.data.model.UnsplashPhotoUrls
+import com.jaemin.assignment.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhotoUrls
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
 
 @Composable

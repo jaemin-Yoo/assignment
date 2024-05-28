@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.jaemin.assignment.data.UnsplashRepository
-import com.jaemin.assignment.data.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhoto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

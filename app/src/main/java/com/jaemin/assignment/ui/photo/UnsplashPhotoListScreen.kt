@@ -31,8 +31,8 @@ import androidx.paging.compose.LazyPagingItems
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.jaemin.assignment.R
-import com.jaemin.assignment.data.model.UnsplashPhoto
-import com.jaemin.assignment.data.model.UnsplashPhotoUrls
+import com.jaemin.assignment.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhotoUrls
 
 @Composable
 fun UnsplashPhotoListScreen(

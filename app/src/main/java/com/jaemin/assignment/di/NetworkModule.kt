@@ -1,7 +1,7 @@
 package com.jaemin.assignment.di
 
 import com.jaemin.assignment.BuildConfig
-import com.jaemin.assignment.api.UnsplashService
+import com.jaemin.assignment.data.UnsplashService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.jaemin.assignment.data.model
+package com.jaemin.assignment.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
