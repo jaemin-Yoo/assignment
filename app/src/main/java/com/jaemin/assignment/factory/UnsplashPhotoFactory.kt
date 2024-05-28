@@ -5,7 +5,7 @@ import com.jaemin.assignment.model.UnsplashPhotoUrls
 
 object UnsplashPhotoFactory {
 
-    private fun createUnsplashPhoto(id: String): UnsplashPhoto {
+    fun createUnsplashPhoto(id: String = "1"): UnsplashPhoto {
         return UnsplashPhoto(
             id = id,
             urls = UnsplashPhotoUrls(FAKE_LINK)
