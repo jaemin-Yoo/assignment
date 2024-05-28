@@ -36,9 +36,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.jaemin.assignment.R
 import com.jaemin.assignment.model.UnsplashPhoto
 import com.jaemin.assignment.model.UnsplashPhotoUrls
+import com.jaemin.assignment.ui.feed.FeedViewModel.FeedUiState
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
 import com.jaemin.assignment.ui.theme.AssignmentTheme
-import com.jaemin.assignment.ui.feed.FeedViewModel.FeedUiState
 import kotlinx.coroutines.flow.flow
 
 @Composable

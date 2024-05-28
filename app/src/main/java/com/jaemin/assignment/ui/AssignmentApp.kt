@@ -8,10 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jaemin.assignment.ui.navigation.AssignmentBottomBar
-import com.jaemin.assignment.ui.navigation.BottomNavItem
 import com.jaemin.assignment.ui.favorites.FavoritesScreen
 import com.jaemin.assignment.ui.feed.FeedScreen
+import com.jaemin.assignment.ui.navigation.AssignmentBottomBar
+import com.jaemin.assignment.ui.navigation.BottomNavItem
 
 @Composable
 fun AssignmentApp() {
