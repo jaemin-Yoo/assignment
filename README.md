@@ -55,7 +55,7 @@ UNSPLASH_ACCESS_KEY="YOUR_ACCESS_KEY"
 - Glide
 - Min SDK 24
 
-# Trouble Shooting
+# Thinking
 
 ### 즐겨찾기 이미지 저장 방식
 
