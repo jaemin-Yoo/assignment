@@ -7,9 +7,8 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.jaemin.assignment.api.UnsplashService
-import com.jaemin.assignment.data.model.UnsplashPhoto
-import com.jaemin.assignment.data.model.UnsplashPhotoUrls
+import com.jaemin.assignment.model.UnsplashPhoto
+import com.jaemin.assignment.model.UnsplashPhotoUrls
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

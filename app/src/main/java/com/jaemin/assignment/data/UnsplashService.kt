@@ -1,7 +1,7 @@
-package com.jaemin.assignment.api
+package com.jaemin.assignment.data
 
 import com.jaemin.assignment.BuildConfig
-import com.jaemin.assignment.data.model.UnsplashSearchResponse
+import com.jaemin.assignment.model.UnsplashSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
