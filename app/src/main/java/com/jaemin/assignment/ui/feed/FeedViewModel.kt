@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.jaemin.assignment.data.UnsplashRepository
 import com.jaemin.assignment.data.model.UnsplashPhoto
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,8 +22,8 @@ class FeedViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    private val _unsplashPhotosStream = MutableStateFlow<Flow<PagingData<UnsplashPhoto>>?>(null)
-    val unsplashPhotosStream: StateFlow<Flow<PagingData<UnsplashPhoto>>?> = _unsplashPhotosStream
+    private val _unsplashPhotosStream = MutableStateFlow<PagingData<UnsplashPhoto>>(PagingData.empty())
+    val unsplashPhotosStream: StateFlow<PagingData<UnsplashPhoto>> get() = _unsplashPhotosStream
 
     val favoritePhotos: StateFlow<Collection<UnsplashPhoto>> = unsplashRepository.favoritePhoto
         .stateIn(viewModelScope, SharingStarted.Lazily, emptySet())
@@ -35,7 +34,11 @@ class FeedViewModel @Inject constructor(
 
     fun search() {
         viewModelScope.launch {
-            _unsplashPhotosStream.value = unsplashRepository.getUnsplashPhotosStream(searchQuery.value).cachedIn(viewModelScope)
+            unsplashRepository.getUnsplashPhotosStream(searchQuery.value)
+                .cachedIn(viewModelScope)
+                .collect { pagingData ->
+                    _unsplashPhotosStream.value = pagingData
+                }
         }
     }
 

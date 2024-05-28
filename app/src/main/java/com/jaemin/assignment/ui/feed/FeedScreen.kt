@@ -36,11 +36,10 @@ fun FeedScreen(
     viewModel: FeedViewModel = hiltViewModel()
 ) {
     val searchQuery by viewModel.searchQuery.collectAsState()
-    val unsplashPhotosStream by viewModel.unsplashPhotosStream.collectAsState()
     val favoritePhotos by viewModel.favoritePhotos.collectAsState()
     FeedScreen(
         searchQuery = searchQuery,
-        unsplashPhotoStream = unsplashPhotosStream,
+        unsplashPhotoStream = viewModel.unsplashPhotosStream,
         favoritePhotos = favoritePhotos.toList(),
         onSearchQueryChanged = viewModel::onSearchQueryChanged,
         onSearch = viewModel::search,
@@ -52,7 +51,7 @@ fun FeedScreen(
 @Composable
 fun FeedScreen(
     searchQuery: String,
-    unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>?,
+    unsplashPhotoStream: Flow<PagingData<UnsplashPhoto>>,
     favoritePhotos: List<UnsplashPhoto> = emptyList(),
     onSearchQueryChanged: (String) -> Unit = {},
     onSearch: () -> Unit = {},
@@ -65,17 +64,15 @@ fun FeedScreen(
             onSearchQueryChanged = onSearchQueryChanged,
             onSearch = onSearch
         )
-        unsplashPhotoStream?.let { dataFlow ->
-            val pagingItems = dataFlow.collectAsLazyPagingItems()
-            UnsplashPhotoListScreen(
-                unsplashPhotos = pagingItems,
-                favoritePhotos = favoritePhotos
-            ) { id, isLiked ->
-                if (isLiked) {
-                    onAddFavorite(id)
-                } else {
-                    onRemoveFavorite(id)
-                }
+        val pagingItems = unsplashPhotoStream.collectAsLazyPagingItems()
+        UnsplashPhotoListScreen(
+            unsplashPhotos = pagingItems,
+            favoritePhotos = favoritePhotos
+        ) { id, isLiked ->
+            if (isLiked) {
+                onAddFavorite(id)
+            } else {
+                onRemoveFavorite(id)
             }
         }
     }
