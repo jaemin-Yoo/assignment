@@ -23,18 +23,14 @@ class FeedViewModel @Inject constructor(
     private val unsplashRepository: UnsplashRepository
 ) : ViewModel() {
 
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery.asStateFlow()
-
     private val _feedUiState: MutableStateFlow<FeedUiState> = MutableStateFlow(FeedUiState.Nothing)
     val feedUiState = _feedUiState.asStateFlow()
 
     val favoritePhotos: StateFlow<Collection<UnsplashPhoto>> = unsplashRepository.favoritePhoto
         .stateIn(viewModelScope, SharingStarted.Lazily, emptySet())
 
-    fun onSearchQueryChanged(query: String) {
-        _searchQuery.value = query
-    }
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
 
     fun search() {
         _feedUiState.value = FeedUiState.Loading
@@ -49,6 +45,10 @@ class FeedViewModel @Inject constructor(
                     _feedUiState.value = FeedUiState.Success(pagingData)
                 }
         }
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
     }
 
     fun addFavorite(photo: UnsplashPhoto) {
