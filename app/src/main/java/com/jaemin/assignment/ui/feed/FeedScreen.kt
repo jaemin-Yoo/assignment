@@ -26,32 +26,29 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jaemin.assignment.R
+import com.jaemin.assignment.factory.UnsplashPhotoFactory
 import com.jaemin.assignment.model.UnsplashPhoto
-import com.jaemin.assignment.model.UnsplashPhotoUrls
+import com.jaemin.assignment.ui.feed.FeedViewModel.FeedUiState
 import com.jaemin.assignment.ui.photo.UnsplashPhotoListScreen
 import com.jaemin.assignment.ui.theme.AssignmentTheme
-import com.jaemin.assignment.ui.feed.FeedViewModel.FeedUiState
 import kotlinx.coroutines.flow.flow
 
 @Composable
 fun FeedScreen(
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val feedUiState by viewModel.feedUiState.collectAsStateWithLifecycle()
-    val searchQuery by viewModel.searchQuery.collectAsState()
+    val feedUiState by viewModel.feedUiState.collectAsState()
     val favoritePhotos by viewModel.favoritePhotos.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
     FeedScreen(
         feedUiState = feedUiState,
-        searchQuery = searchQuery,
         favoritePhotos = favoritePhotos.toList(),
+        searchQuery = searchQuery,
         onSearchQueryChanged = viewModel::onSearchQueryChanged,
         onSearch = viewModel::search,
         onAddFavorite = viewModel::addFavorite,
@@ -62,8 +59,8 @@ fun FeedScreen(
 @Composable
 fun FeedScreen(
     feedUiState: FeedUiState,
-    searchQuery: String,
     favoritePhotos: List<UnsplashPhoto> = emptyList(),
+    searchQuery: String = "",
     onSearchQueryChanged: (String) -> Unit = {},
     onSearch: () -> Unit = {},
     onAddFavorite: (UnsplashPhoto) -> Unit = {},
@@ -146,9 +143,7 @@ fun SearchTextField(
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.margin_normal)),
         value = searchQuery,
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search,
-        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = { onSearch() }
         ),
@@ -159,39 +154,23 @@ fun SearchTextField(
 
 @Preview
 @Composable
-fun FeedScreenPreview(
-    @PreviewParameter(FeedScreenPreviewParamProvider::class) unsplashPhotoStream: PagingData<UnsplashPhoto>
-) {
+fun FeedScreenNothingPreview() {
     AssignmentTheme {
-        FeedScreen(
-            feedUiState = FeedUiState.Success(unsplashPhotoStream),
-            searchQuery = "",
-            favoritePhotos = listOf(
-                UnsplashPhoto(
-                    id = "1",
-                    urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
-                )
-            )
-        )
+        FeedScreen(feedUiState = FeedUiState.Nothing)
     }
 }
 
-private class FeedScreenPreviewParamProvider :
-    PreviewParameterProvider<PagingData<UnsplashPhoto>> {
-
-    override val values: Sequence<PagingData<UnsplashPhoto>> =
-        sequenceOf(
-            PagingData.from(
-                listOf(
-                    UnsplashPhoto(
-                        id = "1",
-                        urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
-                    ),
-                    UnsplashPhoto(
-                        id = "2",
-                        urls = UnsplashPhotoUrls("https://images.unsplash.com/photo-1715954582482-82f25cc96e78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTYzNjV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTY3OTE2OTR8&ixlib=rb-4.0.3&q=80&w=400")
-                    )
-                )
-            )
+@Preview
+@Composable
+fun FeedScreenSuccessPreview() {
+    AssignmentTheme {
+        val pagingItems = PagingData.from(
+            UnsplashPhotoFactory.createUnsplashPhotos(5)
         )
+        val favoritePhotos = UnsplashPhotoFactory.createUnsplashPhotos(3)
+        FeedScreen(
+            feedUiState = FeedUiState.Success(pagingItems),
+            favoritePhotos = favoritePhotos
+        )
+    }
 }

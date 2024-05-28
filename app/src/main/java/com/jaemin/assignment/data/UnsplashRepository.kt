@@ -44,12 +44,12 @@ class UnsplashRepository @Inject constructor(
 
     fun getUnsplashPhotosStream(query: String): Flow<PagingData<UnsplashPhoto>> {
         return Pager(
-            config = PagingConfig(enablePlaceholders = false, pageSize = PAGING_SIZE),
+            config = PagingConfig(enablePlaceholders = false, pageSize = PAGE_SIZE),
             pagingSourceFactory = { UnsplashPagingSource(unsplashService, query) }
         ).flow
     }
 
     companion object {
-        private const val PAGING_SIZE = 30
+        private const val PAGE_SIZE = 30
     }
 }
