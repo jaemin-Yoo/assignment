@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -45,7 +44,7 @@ import kotlinx.coroutines.flow.flow
 fun FeedScreen(
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val feedUiState by viewModel.feedUiState.collectAsStateWithLifecycle()
+    val feedUiState by viewModel.feedUiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val favoritePhotos by viewModel.favoritePhotos.collectAsState()
     FeedScreen(
